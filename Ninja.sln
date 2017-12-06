@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninja", "Ninja\Ninja.csproj", "{93E3B847-F76E-4D48-BB79-780BA05F95DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaDomain.Classes", "NinjaDomain.Classes\NinjaDomain.Classes.csproj", "{12F6797E-152A-49EA-9E0C-9A2D88A15508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaDomain.DataModel", "NinjaDomain.DataModel\NinjaDomain.DataModel.csproj", "{6033D736-F49F-437D-AF47-8387A1F09444}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93E3B847-F76E-4D48-BB79-780BA05F95DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93E3B847-F76E-4D48-BB79-780BA05F95DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93E3B847-F76E-4D48-BB79-780BA05F95DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93E3B847-F76E-4D48-BB79-780BA05F95DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12F6797E-152A-49EA-9E0C-9A2D88A15508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12F6797E-152A-49EA-9E0C-9A2D88A15508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12F6797E-152A-49EA-9E0C-9A2D88A15508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12F6797E-152A-49EA-9E0C-9A2D88A15508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6033D736-F49F-437D-AF47-8387A1F09444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6033D736-F49F-437D-AF47-8387A1F09444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6033D736-F49F-437D-AF47-8387A1F09444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6033D736-F49F-437D-AF47-8387A1F09444}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
