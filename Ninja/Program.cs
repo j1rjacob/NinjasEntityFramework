@@ -1,7 +1,10 @@
-﻿using NinjaDomain.DataModel;
+﻿using NinjaDomain.Classes;
+using NinjaDomain.Classes.Enums;
+using NinjaDomain.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace Ninja
 {
@@ -11,16 +14,180 @@ namespace Ninja
         {
             Database.SetInitializer(new NullDatabaseInitializer<NinjaContext>());
             //InsertNinjas();
-            InsertMultipleNinjas();
-            SimpleNinjaQueries();
+            //InsertMultipleNinjas();
+            //SimpleNinjaQueries();
+            //QueryandUpdateNinja();
+            //QueryandUpdateNinjaDisconnected();
+            //RetrieveDataWithFind();
+            //RetrieveDataWithStoredProc();
+            //DeleteNinja();
+            //DeleteNinjaDisconned();
+            //DeleteNinjaWithKeyValue();
+            //DeleteNinjaWithStoredProcedure();
+            //InsertNinjaWithEquipment();
+
             Console.ReadKey();
+        }
+
+        private static void InsertNinjaWithEquipment()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninja = new NinjaDomain.Classes.Ninja
+                {
+                    Name   = "Kacy Cantazaro",
+                    ServedInOniwaban = false,
+                    DateOfBirth = new DateTime(1986,06,20),
+                    ClanId = 1
+                };
+                var muscles = new NinjaEquipment
+                {
+                    Name="Muscles",
+                    Type = EquipmentType.Tool
+                };
+                var spunk = new NinjaEquipment
+                {
+                    Name="Spunk",
+                    Type = EquipmentType.Weapon
+                };
+                context.Ninjas.Add(ninja);
+                ninja.EquipmentOwned.Add(muscles);
+                ninja.EquipmentOwned.Add(spunk);
+                context.SaveChanges();
+            }
+        }
+
+        private static void DeleteNinjaWithStoredProcedure()
+        {
+            using (var context = new NinjaContext())
+            {
+                var keyval = 6;
+                context.Database.Log = Console.WriteLine;
+                context.Database.ExecuteSqlCommand(
+                    "exec DeleteNinjaViaId {0}", keyval);
+                context.SaveChanges();
+            }
+        }
+
+        private static void DeleteNinjaWithKeyValue()
+        {
+            using (var context = new NinjaContext())
+            {
+                var keyval = 6;
+                context.Database.Log = Console.WriteLine;
+                var ninja = context.Ninjas.Find(keyval);
+                context.Ninjas.Remove(ninja);
+                context.SaveChanges();
+            }
+        }
+
+        private static void DeleteNinjaDisconned()
+        {
+            //For online application only
+            NinjaDomain.Classes.Ninja ninja;
+
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                ninja = context.Ninjas.FirstOrDefault();
+            }
+            
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                context.Ninjas.Attach(ninja);
+                context.Entry(ninja).State = EntityState.Deleted;
+                context.SaveChanges();
+            }
+        }
+
+        private static void DeleteNinja()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninja = context.Ninjas.FirstOrDefault();
+                context.Ninjas.Remove(ninja);
+                context.SaveChanges();
+            }
+        }
+
+        private static void RetrieveDataWithStoredProc()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninjas = context.Ninjas.SqlQuery("exec GetOldNinjas");
+                foreach (var ninja in ninjas)
+                {
+                    Console.WriteLine(ninja.Name); 
+                }
+            }
+        }
+
+        private static void RetrieveDataWithFind()
+        {
+            var keyval = 3;
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninja = context.Ninjas.Find(keyval);
+                Console.WriteLine($"After Find#1 {ninja.Name}");
+
+                var someNinja = context.Ninjas.Find(keyval);
+                Console.WriteLine($"After Find#2 {someNinja.Name}");
+                ninja = null;
+            }
+        }
+
+        private static void QueryandUpdateNinjaDisconnected()
+        {   //For online application only
+            NinjaDomain.Classes.Ninja ninja;
+
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                ninja = context.Ninjas.FirstOrDefault();
+            }
+            ninja.ServedInOniwaban = (!ninja.ServedInOniwaban);
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                context.Ninjas.Attach(ninja);
+                context.Entry(ninja).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
+        private static void QueryandUpdateNinja()
+        {//For offline application only.
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninja = context.Ninjas.FirstOrDefault();
+                ninja.ServedInOniwaban = (!ninja.ServedInOniwaban);
+                context.SaveChanges();
+            }
         }
 
         private static void SimpleNinjaQueries()
         {
-            throw new NotImplementedException();
+            using (var context = new NinjaContext())
+            {
+                var ninjas = context.Ninjas.ToList();
+                //var query = context.Ninjas.Where(x => x.Name == "Junar");
+                var query = context.Ninjas
+                    .Where(x => x.DateOfBirth == new DateTime(1986,06,20))
+                    .FirstOrDefault();
+                //var someinninjas = query.ToList();
+                Console.WriteLine(query.Name);
+                //foreach (var ninja in query)
+                //{
+                //    Console.WriteLine(ninja.Name);
+                //}
+            }
         }
-
         private static void InsertNinjas()
         {
             var ninja = new NinjaDomain.Classes.Ninja()
