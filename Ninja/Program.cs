@@ -25,8 +25,43 @@ namespace Ninja
             //DeleteNinjaWithKeyValue();
             //DeleteNinjaWithStoredProcedure();
             //InsertNinjaWithEquipment();
-
+            //SimpleNinjaGraphQuery();
+            //ProjectionQuery();
             Console.ReadKey();
+        }
+
+        private static void ProjectionQuery()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+
+                var ninjas = context.Ninjas
+                    .Select(n => new {n.Name, n.DateOfBirth, n.EquipmentOwned})
+                    .ToList();
+            }
+        }
+
+        private static void SimpleNinjaGraphQuery()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+
+                //Eager Loading
+                //var ninjas = context.Ninjas.Include(n => n.EquipmentOwned)
+                //    .FirstOrDefault(n => n.Name.StartsWith("Junar"));
+
+                //Explicit Loading
+                var ninja = context.Ninjas
+                    .FirstOrDefault(n => n.Name.StartsWith("Kacy"));
+                Console.WriteLine($"Ninja Retrieved: {ninja.Name}");
+                //context.Entry(ninja).Collection(n => n.EquipmentOwned).Load();
+
+                //Lazy Loading
+                //Mark the property to virual = virtual List<NinjaEquipment> on Ninja Class
+                Console.WriteLine($"Ninja Equipment Count {ninja.EquipmentOwned.Count()}");
+            }
         }
 
         private static void InsertNinjaWithEquipment()
